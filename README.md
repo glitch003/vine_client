@@ -6,7 +6,7 @@
 
 ``` ruby
 # Gemfile
-gem vine_client
+gem 'vine_client'
 ```
 
 or
