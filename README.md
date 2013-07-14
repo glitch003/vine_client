@@ -1,5 +1,4 @@
 #vine_client
-===========
 
 `vine_client` - This is the simple Ruby wrapper for the Vine API.
 
