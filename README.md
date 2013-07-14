@@ -28,7 +28,7 @@ user=Vine::Client.new('username','password')
 #user info
 user.user_info('user_id')#default current user id
 
-#return a list of popular posts
+#return the list of popular posts
 user.get_popular
 
 #user timeline
