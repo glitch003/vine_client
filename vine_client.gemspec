@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'vine_client'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2013-07-14'
   s.summary     = "vine_client"
   s.description = "ruby wraper for vine.co api"
@@ -12,5 +12,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'faraday_middleware',          '~> 0.8'
   s.require_paths = ['lib']
   s.homepage    = 'https://github.com/obrigan228/vine_client'
-  s.licenses = ['MIT', 'GPL-2']
+  s.licenses = ['MIT']
 end

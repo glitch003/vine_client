@@ -23,6 +23,10 @@ module Vine
       get("/users/profiles/#{user_id}")
     end
 
+    def search(keyword)
+      get("/users/search/#{keyword}")
+    end
+
     def timelines(user_id=@userId)
       get("/timelines/users/#{user_id}")
     end
