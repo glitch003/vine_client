@@ -27,6 +27,9 @@ user=Vine::Client.new('username','password')
 #user info
 user.user_info('user_id')#default current user id
 
+#search user by username 
+user.search('username',page)
+
 #return the list of popular posts
 user.get_popular
 
