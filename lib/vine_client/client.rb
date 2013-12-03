@@ -32,7 +32,7 @@ module Vine
     end
 
     def tag(tag=nil)
-      get('/timelines/tags/#{tag}') if tag
+      get("/timelines/tags/#{tag}") if tag
     end
 
     def notifications(user_id=@userId)
