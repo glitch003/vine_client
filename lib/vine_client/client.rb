@@ -23,16 +23,23 @@ module Vine
       get("/users/profiles/#{user_id}")
     end
 
-    def search(keyword)
-      get("/users/search/#{keyword}")
+    def search(keyword, page)
+      get("/users/search/#{keyword}?page=#{page}")
     end
 
     def timelines(user_id=@userId)
       get("/timelines/users/#{user_id}")
     end
 
-    def tag(tag=nil)
-      get("/timelines/tags/#{tag}") if tag
+    def tag(tag=nil, page=nil)
+      if tag
+        if page
+          get("/timelines/tags/#{tag}?page=#{page}")
+        else
+          get("/timelines/tags/#{tag}")
+        end
+
+      end
     end
 
     def notifications(user_id=@userId)
