@@ -45,5 +45,9 @@ module Vine
     def notifications(user_id=@userId)
       get("/users/#{user_id}/pendingNotificationsCount")
     end
+
+    def like(post_id=nil)
+      post("/posts/#{post_id}/likes") if post_id
+    end
   end
 end
