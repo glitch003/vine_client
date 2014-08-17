@@ -27,7 +27,7 @@ user=Vine::Client.new('username','password')
 #user info
 user.user_info('user_id')#default current user id
 
-#search user by username 
+#search user by username
 user.search('username',page)
 
 #return the list of popular posts
@@ -46,7 +46,10 @@ user.notifications('user_id')
 #logout
 
 user.logout
+
+#padination
+user.tag(tag,page)
+#or
+page1 = user.tag(tag)
+page2 = page1.next_page
 ```
-
-
-

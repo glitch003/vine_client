@@ -1,7 +1,7 @@
 module Vine
   module Request
 
-    [:get,:put,:post,:delete].each{|verb|define_method(verb){|*arg| call(verb, arg[0],arg[1])}}
+    [:get,:put,:post,:delete].each{|verb| define_method(verb){|*arg| call(verb, arg[0],arg[1])}}
 
     def call(http_verb, path, params)
       result = connection.send(http_verb, path, params){|req| req[:vine_session_id]=@key if @key}
@@ -23,7 +23,7 @@ module Vine
           :verify => true
         },
       }
- 
+
       Faraday.new(options) do |builder|
         builder.response :raise_error
         builder.response :mashify

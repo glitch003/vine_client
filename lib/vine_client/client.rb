@@ -1,10 +1,12 @@
+require 'hashie'
+
 module Vine
   class Client
     include Request
     def initialize(name, pass)
-      result=login(name,pass)
-      @key=result['key']
-      @userId=result['userId']
+      result = login(name,pass)
+      @key = result['key']
+      @userId = result['userId']
     end
 
     def login(name, pass)
@@ -23,23 +25,23 @@ module Vine
       get("/users/profiles/#{user_id}")
     end
 
-    def search(keyword, page)
-      get("/users/search/#{keyword}?page=#{page}")
+    def search(keyword, page = nil)
+      result = get("/users/search/#{keyword}?page=#{page}")
+      method = lambda{|keyword, page| get("/users/search/#{keyword}?page=#{page}")}
+      ResultSet.new(result, keyword, method)
     end
 
-    def timelines(user_id=@userId)
-      get("/timelines/users/#{user_id}")
+
+    def timelines(page = nil, user_id=@userId)
+      result = get("/timelines/users/#{user_id}?page=#{page}")
+      method = lambda{|user_id, page| get("/timelines/users/#{user_id}?page=#{page}")}
+      ResultSet.new(result, user_id, method)
     end
 
     def tag(tag=nil, page=nil)
-      if tag
-        if page
-          get("/timelines/tags/#{tag}?page=#{page}")
-        else
-          get("/timelines/tags/#{tag}")
-        end
-
-      end
+        result = get("/timelines/tags/#{tag}?page=#{page}")
+        method = lambda{|tag, page| get("/timelines/tags/#{tag}?page=#{page}")}
+        ResultSet.new(result, tag, method)
     end
 
     def notifications(user_id=@userId)
@@ -48,6 +50,34 @@ module Vine
 
     def like(post_id=nil)
       post("/posts/#{post_id}/likes") if post_id
+    end
+
+    def get_post(post_id=nil)
+      get("/timelines/posts/#{post_id}") if post_id
+    end
+  end
+
+  class ResultSet
+    include Request
+    attr_reader :records, :current_page
+
+    def call_method(method, optional_param, page)
+      result = method.call(optional_param, page)
+      ResultSet.new(result, optional_param, method)
+    end
+
+    def initialize(result, optional_param,method)
+      @current_page = result.nextPage.nil? ? 1 : result.nextPage - 1
+      @records = result.records.map{|vine| Video.new(vine.to_hash)}
+      define_singleton_method(:next_page){ call_method(method, optional_param, @current_page + 1)}  unless result.nextPage.nil?
+      define_singleton_method(:previous_page){ call_method(method ,optional_param, @current_page - 1)}  unless result.previousPage.nil?
+    end
+  end
+
+  class Video < Hashie::Mash
+    include Request
+    def like()
+      post("/posts/#{self.postId}/likes") if self.postId
     end
   end
 end

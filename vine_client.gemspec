@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'vine_client'
-  s.version     = '0.0.2'
+  s.version     = '0.0.7'
   s.date        = '2013-07-14'
   s.summary     = "vine_client"
   s.description = "ruby wraper for vine.co api"
