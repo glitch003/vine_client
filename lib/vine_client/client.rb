@@ -25,6 +25,12 @@ module Vine
       get("/users/profiles/#{user_id}")
     end
 
+    def channel(channel_code, page = nil, popular_or_recent = "popular")
+      result = get("/timelines/channels/#{channel_code}/#{popular_or_recent}?page=#{page}")
+      method = lambda{|keyword, page| get("/timelines/channels/#{channel_code}/#{popular_or_recent}?page=#{page}")}
+      ResultSet.new(result, channel_code, method)
+    end
+
     def search(keyword, page = nil)
       result = get("/users/search/#{keyword}?page=#{page}")
       method = lambda{|keyword, page| get("/users/search/#{keyword}?page=#{page}")}
